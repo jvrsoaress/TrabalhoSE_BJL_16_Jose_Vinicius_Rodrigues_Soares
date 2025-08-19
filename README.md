@@ -43,10 +43,10 @@ Desenvolver um sistema embarcado interativo utilizando a placa BitDogLab com Ras
 - **Matriz de LEDs (WS2812):**
   - **Cor Dinâmica:** A cor dos 25 LEDs muda para corresponder à cor do objeto posicionado em frente ao sensor GY-33;
   - **Brilho Adaptativo:** A intensidade da matriz aumenta ou diminui de acordo com a luz ambiente medida pelo GY-302, apagando-se completamente no escuro.
-  - **Buzzer:**
+- **Buzzer:**
     - Emite um beep intermitente a cada 2 segundos;
     - É acionado em duas condições de alerta: luminosidade abaixo de 50 Lux ou detecção de vermelho intenso.
-  - **Lógica de Cores:**
+- **Lógica de Cores:**
     - Uma função customizada analisa os valores RGB e consegue identificar 6 cores (Vermelho, Verde, Azul, Amarelo, Ciano, Magenta), além de "Branco" e "Escuro", tornando o sistema mais preciso.
 
 ## 🚀 Passos para Compilação e Upload do projeto Ohmímetro com Matriz de LEDs
