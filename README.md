@@ -81,5 +81,6 @@ Desenvolver um sistema embarcado interativo utilizando a placa BitDogLab com Ras
 
 ## 🎥 Demonstração: 
 
-- Para ver o funcionamento do projeto, acesse o vídeo de demonstração em:
+- Confira o funcionamento do projeto no [vídeo de demonstração](https://youtu.be/QWfcVuVVv70).
+
 
