@@ -69,7 +69,7 @@ volatile uint32_t ultimo_aperto = 0;                // armazena o tempo do últi
 // return: valor normalizado (0 a 255)
 uint8_t normalizar_cor(uint16_t raw_value) {
     // Considera o intervalo máximo do sensor (0 a 300)
-    const uint16_t raw_max = 300;
+    const uint16_t raw_max = 255;
     float normalized = ((float)raw_value / raw_max) * 255.0;
     
     // Limita o valor entre 0 e 255
@@ -350,6 +350,11 @@ int main() {
                 ssd1306_draw_string(&ssd, "MENU INICIAL", 16, 4);
                 ssd1306_draw_string(&ssd, "A: Tela Status", 4, 24);
                 ssd1306_draw_string(&ssd, "B: Tela Valores", 4, 40);
+                printf("--- TELA MENU ---\n");
+                printf("MENU INICIAL\n");
+                printf("A: Tela Status\n");
+                printf("B: Tela Valores\n");
+                printf("-----------------\n");
                 break;
 
             case TELA_STATUS: {
@@ -364,6 +369,12 @@ int main() {
                 ssd1306_draw_string(&ssd, texto_buffer, 4, 30);
                 sprintf(texto_buffer, "Estado: %s", estado_sistema);
                 ssd1306_draw_string(&ssd, texto_buffer, 4, 44);
+                printf("--- TELA STATUS ---\n");
+                printf("- STATUS -\n");
+                printf("Luz: %d Lux\n", lux);
+                printf("Cor: %s\n", nome_cor);
+                printf("Estado: %s\n", estado_sistema);
+                printf("-------------------\n");
                 break;
             }
             case TELA_VALORES:
@@ -374,6 +385,12 @@ int main() {
                 ssd1306_draw_string(&ssd, texto_buffer, 4, 34);
                 sprintf(texto_buffer, "Azul:     %d", b8);
                 ssd1306_draw_string(&ssd, texto_buffer, 4, 48);
+                printf("--- TELA VALORES ---\n");
+                printf("- VALORES RGB -\n");
+                printf("Vermelho: %d\n", r8);
+                printf("Verde:    %d\n", g8);
+                printf("Azul:     %d\n", b8);
+                printf("--------------------\n");
                 break;
         }
         ssd1306_send_data(&ssd);
