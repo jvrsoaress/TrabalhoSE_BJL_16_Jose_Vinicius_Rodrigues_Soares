@@ -1,0 +1,48 @@
+.program ws2812
+; WS2812 LED strip driver for RP2040 PIO
+; 1 = 0.7us high, 0.6us low
+; 0 = 0.35us high, 0.8us low
+; Reset = 50us low
+
+; Clocked at 8MHz (125ns per tick), so:
+; 0.7us = 5600ns = 44.8 ticks (~45)
+; 0.6us = 4800ns = 38.4 ticks (~38)
+; 0.35us = 2800ns = 22.4 ticks (~22)
+; 0.8us = 6400ns = 51.2 ticks (~51)
+
+.define public T1  22  ; 0.35us
+.define public T2  45  ; 0.7us
+.define public T3  38  ; 0.6us
+.define public T4  51  ; 0.8us
+
+; We use a bit-banging approach, sending bits from MSB to LSB
+; Data is sent as GRB (not RGB)
+
+.wrap_target
+bitloop:
+    out x, 1        side 0    ; Get the next bit into x, set pin low
+    jmp !x, zero              ; If bit is 0, jump to zero
+one:
+    nop [T2-2]      side 1    ; Hold high for T2 (0.7us)
+    jmp bitloop     side 0 [T3-2] ; Hold low for T3 (0.6us), loop
+zero:
+    nop [T1-2]      side 1    ; Hold high for T1 (0.35us)
+    jmp bitloop     side 0 [T4-2] ; Hold low for T4 (0.8us), loop
+.wrap
+
+% c-sdk {
+static inline void ws2812_program_init(PIO pio, uint sm, uint offset, uint pin, float freq, bool rgbw) {
+    pio_gpio_init(pio, pin);
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+    pio_sm_config c = ws2812_program_get_default_config(offset);
+    sm_config_set_sideset_pins(&c, pin);
+    sm_config_set_out_pin(&c, pin);
+    sm_config_set_out_shift(&c, false, true, rgbw ? 32 : 24);
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
+    int cycles_per_bit = T1 + T2 + T3 + T4;
+    float div = (float)clock_get_hz(clk_sys) / (freq * cycles_per_bit);
+    sm_config_set_clkdiv(&c, div);
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}
