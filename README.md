@@ -1,5 +1,5 @@
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=02A6F4&height=120&section=header"/>
-<h1 align="center">Embarcatech - Projeto Integrado - BitDogLab </h1>
+<h1 align="center">Embarcatech - Projeto Monitor Interativo de Cor e Luz utilizando a placa BitDogLab </h1>
 
 ## Objetivo do Projeto
 
